@@ -153,7 +153,7 @@
 
             %% antigen=5~15(t_end=t_end=10000*10 for convergence)
 
-            antigen_satu_list_2=0:1:15;
+            antigen_satu_list_2=5:1:15;
             t_end=10000*10;
             
             [heatmap_result_Th_2,heatmap_result_Tr_2,heatmap_result_R_2,heatmap_result_Mh_2,heatmap_result_Mr_2]=fig3_heatmap_final(dt,q,antigen_satu_list_2,tau_list,t_end,func_num,p,K_list,n_list,q_max_list);
