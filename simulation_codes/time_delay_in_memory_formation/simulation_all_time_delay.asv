@@ -1,0 +1,229 @@
+%%% all simulations in fig2-5 and Sfig1-2 %%%
+clear
+
+delay_time_list=[0,10,50];
+
+
+
+for d_num=1:3
+
+                    %% common parameters
+                        
+
+                        p=get_para_final;
+
+                        dt=0.01;
+
+                    %% parameter of time delay
+
+                        delayed_time=delay_time_list(d_num);
+                        tau_delay=delayed_time/dt;%time delay of memory generation
+
+                    %% Figure2
+
+                          func_num=1;%linear dose response
+
+                            %% time series simulation under high or low antigen concentrations (fig2A and B)
+
+
+                               tau_up=100;%common rapidness of antigen input
+                               t_end=10000;
+
+
+                                 %%high antigen concentration (fig2A)
+
+                                   antigen_satu=200;%antigen concentration(convergence value)
+                                   high_dose_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up,func_num,tau_delay);
+
+                                   %plot
+                                   fig2_plot_time_series_final_timedelay(high_dose_result,p,antigen_satu,delayed_time)
+
+                                   save(['high_dose_result_delay_',num2str(delayed_time)],'high_dose_result')
+
+
+% %                                    T_delay=high_dose_result(1,:);
+% %                                    A_delay=high_dose_result(14,:);Th_temp_delay=high_dose_result(15,:);Tr_temp_delay=high_dose_result(16,:);
+% %                                    Th=high_dose_result(2,:);
+% %                                    Mh_list=high_dose_result(10,:);Mr_list=high_dose_result(11,:);
+% %                                    
+        % %                            
+        % %                            figure
+        % %                            subplot(5,1,1)
+        % %                            hold on
+        % %                            plot(T_delay,p.mh*Th_temp_delay)
+        % %                            plot(T_delay,A_delay)
+        % %                            legend('mh*Th','A')
+        % %                            
+        % %                            subplot(5,1,2)
+        % %                            hold on
+        % %                            plot(T_delay,p.beta*(Th_temp_delay./(Th_temp_delay+p.K2)))
+        % %                            plot(T_delay,A_delay)
+        % %                            legend('beta*Th/Th+K','A')
+        % %                            
+        % %                            subplot(5,1,3)
+        % %                            scatter(T_delay,Mh_list>10^(-6))
+        % %                            title('Mh>0')
+        % %                            
+        % %                            subplot(5,1,4)
+        % %                            scatter(T_delay,Mr_list>10^(-6))
+        % %                            title('Mr>0')
+        % %                            
+        % %                            subplot(5,1,5)
+        % %                            plot(T_delay,Mh_list.*Th)
+        % %                            title('Mh*Th')
+        % %                            
+        % %                            sgtitle(['delay=',num2str(delayed_time)])
+
+
+
+
+                                 %% low antigen concentration (fig2B)
+
+                                   antigen_satu=20;%antigen concentration(convergence value)
+                                   low_dose_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up,func_num,tau_delay);
+
+                                   %plot
+                                   fig2_plot_time_series_final_timedelay(low_dose_result,p,antigen_satu,delayed_time)
+
+                                   save(['low_dose_result_delay_',num2str(delayed_time)],'low_dose_result')
+
+
+        % %                            T_delay=low_dose_result(1,:);
+        % %                            A_delay=low_dose_result(14,:);Th_temp_delay=low_dose_result(15,:);Tr_temp_delay=low_dose_result(16,:);
+        % %                            Mh_list=low_dose_result(10,:);Mr_list=low_dose_result(11,:);
+        % % 
+        % %                            figure
+        % %                            subplot(4,1,1)
+        % %                            hold on
+        % %                            plot(T_delay,p.mh*Th_temp_delay)
+        % %                            plot(T_delay,A_delay)
+        % %                            legend('mh*Th','A')
+        % %                            
+        % %                            subplot(4,1,2)
+        % %                            hold on
+        % %                            plot(T_delay,p.beta*(Th_temp_delay./(Th_temp_delay+p.K2)))
+        % %                            plot(T_delay,A_delay)
+        % %                            legend('beta*Th/Th+K','A')
+        % %                            
+        % %                            subplot(4,1,3)
+        % %                            scatter(T_delay,Mh_list>10^(-6))
+        % %                            title('Mh>0')
+        % %                            
+        % %                            subplot(4,1,4)
+        % %                            scatter(T_delay,Mr_list>10^(-6))
+        % %                            title('Mr>0')
+        % %                            
+        % %                            sgtitle(['delay=',num2str(delayed_time)])
+
+
+
+                            %% antigen concenetration dependency (convergence value of intensity of response) (related to fig2D) 
+
+                                t_end=1000000/10;%%%%%%変更の必要あり%%%%%%
+                                Antigen_list=0:1:500;
+
+                                Th_satu=zeros(1,length(Antigen_list));Tr_satu=zeros(1,length(Antigen_list));
+                                mTh_satu=zeros(1,length(Antigen_list));mTr_satu=zeros(1,length(Antigen_list));
+                                R_satu=zeros(1,length(Antigen_list));
+                                Mh_satu=zeros(1,length(Antigen_list));Mr_satu=zeros(1,length(Antigen_list));
+
+                                len_a=length(Antigen_list);
+
+                                parfor k=1:length(Antigen_list)
+
+                                    antigen_satu=Antigen_list(k);
+                                    run_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up,func_num,tau_delay);
+
+                                    Th_satu(k)=run_result(2,end);Tr_satu(k)=run_result(3,end);
+                                    mTh_satu(k)=run_result(4,end);mTr_satu(k)=run_result(5,end);
+                                    R_satu(k)=run_result(13,end);
+                                    Mh_satu(k)=run_result(10,end);Mr_satu(k)=run_result(11,end);
+                                    %run_result=[T_delay;Th;Tr;mTh;mTr;Th_naive;Tr_naive;Th_memory;Tr_memory;Mh_list;Mr_list;Antigen;R];
+                                    
+                                    conc_dep_pros=len_a-k;
+                                    disp(['conc_dep_pros=',num2str(conc_dep_pros)])
+                                    
+                                end
+
+                                antigen_dependency_result=[Th_satu;Tr_satu;mTh_satu;mTr_satu;R_satu;Mh_satu;Mr_satu];
+
+                                %plot
+                                fig2_plot_conc_dep_final_timedelay(p,Antigen_list,antigen_dependency_result,func_num,delayed_time)
+                                save(['antigen_dependency_result_delay_',num2str(delayed_time)],'antigen_dependency_result')
+
+
+
+                    %% Figure3 
+
+                            %% time series simulation under rapid or slow antigen rapidness (related to fig3A and B)   
+                               func_num=1;%linear dose-response
+                               antigen_satu=200;%common antigen concentration
+                               t_end=10000;
+
+                               %% high antigen concentration with rapid increase
+
+                                 tau_up_temp=100;
+                                 rapid_dose_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up_temp,func_num,tau_delay);
+
+                                 %plot
+                                 fig3_plot_time_series_final_timedelay(rapid_dose_result,p,tau_up_temp,delayed_time)
+                                 save(['rapid_dose_result_delay_',num2str(delayed_time)],'rapid_dose_result')
+
+
+                               %% high antigen concentration with slow increase%%%  
+
+                                 tau_up_temp=1000;
+                                 slow_dose_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up_temp,func_num,tau_delay);
+
+                                 %plot
+                                 fig3_plot_time_series_final_timedelay(slow_dose_result,p,tau_up_temp,delayed_time) 
+                                 save(['slow_dose_result_delay_',num2str(delayed_time)],'slow_dose_result')
+
+
+
+                            %% input rapidness dependency (convergence value of intensity of response) (related to fig3c)
+
+                                tic
+                                antigen_satu=200;
+                                t_end=1000000/10;
+
+                                tau_list=1:5:1501;
+
+                                Th_satu=zeros(1,length(tau_list));Tr_satu=zeros(1,length(tau_list));
+                                mTh_satu=zeros(1,length(tau_list));mTr_satu=zeros(1,length(tau_list));
+                                R_satu=zeros(1,length(tau_list));
+                                Mh_satu=zeros(1,length(tau_list));Mr_satu=zeros(1,length(tau_list));
+                                
+                                len_tau=length(tau_list);
+
+
+                                parfor k=1:length(tau_list)
+
+                                    tau_up=tau_list(k);
+                                    run_result=run_time_series_final_timedelay(p,dt,t_end,antigen_satu,tau_up,func_num,tau_delay);
+
+                                    Th_satu(k)=run_result(2,end);Tr_satu(k)=run_result(3,end);
+                                    mTh_satu(k)=run_result(4,end);mTr_satu(k)=run_result(5,end);
+                                    R_satu(k)=run_result(13,end);
+                                    Mh_satu(k)=run_result(10,end);Mr_satu(k)=run_result(11,end);
+                                    
+                                    tau_dep_pros=len_tau-k;
+                                    disp(['tau_dep_pros=',num2str(tau_dep_pros)])
+
+
+
+                                end
+
+
+                                tau_result_satu=[Th_satu;Tr_satu;mTh_satu;mTr_satu;R_satu;Mh_satu;Mr_satu];
+
+                                %plot
+                                plot_input_dynamics_final_timedelay(tau_list,tau_result_satu,delayed_time)
+                                save(['tau_result_satu_delay_',num2str(delayed_time)],'tau_result_satu')
+
+
+                                toc
+
+
+                    
+end
