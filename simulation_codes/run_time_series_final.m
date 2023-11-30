@@ -77,8 +77,8 @@ for i=2:length(T)
     Mr=Mr_list(i);
     
     if func_num==1
-        Ha_Th=A^2;
-        Ha_Tr=A^2;
+        Ha_Th=A;
+        Ha_Tr=A;
     elseif func_num==2
         Ha_Th=q_max_sig*(A^n_sig/(A^n_sig+K_sig^n_sig));
         Ha_Tr=q_max_sig*(A^n_sig/(A^n_sig+K_sig^n_sig));
