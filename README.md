@@ -20,4 +20,4 @@ This repository includes codes for simulations of predictive immune memory model
 # Note
 * I used three kinds of parameter sets (`get_para_final_new.m`,`get_para_final_new_fig4.m`,`get_para_final_new_fig5.m`).
   These parameters are different only in the parameters of antigen input in immunotherapy, so all other parameters are identical in the three parameter setting.
-* If you want to know predictive immune memory model in detail, please check: Kana Yoshido and Honda Naoki. "Adaptive discrimination of antigen risk by predictive coding in immune system" (doi: [https://doi.org/10.1101/2021.12.12.472285](https://doi.org/10.1101/2021.12.12.472285)
+* If you want to know predictive immune memory model in detail, please check: Kana Yoshido and Honda Naoki. "Adaptive discrimination of antigen risk by predictive coding in immune system" (doi: [https://doi.org/10.1101/2021.12.12.472285](https://doi.org/10.1101/2021.12.12.472285) )
