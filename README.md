@@ -1,4 +1,4 @@
-![image](https://github.com/kyoshido1213/Simulations-of-Predictive-immune-memory-model/assets/105700190/3c69f6f1-0fa8-48df-a8c1-8f62a4c70f2f)# Simulations-of-Predictive-immune-memory-model
+# Simulations-of-Predictive-immune-memory-model
 This repository includes codes for simulations of predictive immune memory model proposed in "Adaptive discrimination of antigen risk by predictive coding in immune system." written by Kana Yoshido and Honda Naoki.
 
 
